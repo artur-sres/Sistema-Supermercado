@@ -7,6 +7,8 @@ public class GereciamentoProdutos {
     private Produto produtos[];
     private int id;
     static public int ID = 1000;
+    private String nota = "";
+    private double total;
 
     //Construtor
     public GereciamentoProdutos() {
@@ -78,9 +80,31 @@ public void removerProduto(int busca){
             }
             this.produtos[this.id - 1] = null;
             this.id--;
-            JOptionPane.showMessageDialog(null,"Produto removido com sucesso!");
-        } else {
-            JOptionPane.showMessageDialog(null,"Produto com ID " + busca + " não encontrado.");
         }
+    }
+
+    public int adicionarCarrinho(int busca, int quantidade){
+        Produto produto = buscarProduto(busca);
+        if (produto != null){
+            if(produto.getQuantidade() >= quantidade){
+                produto.setQuantidade(produto.getQuantidade()-quantidade);
+                this.nota += "(" + produto.getId() + ")" + produto.getNome()
+                     + "\n" + "Quantidade: " + quantidade + "x " + "\nValor R$" + String.format("%.2f", produto.getPreco()*quantidade) + "\n\n";
+                total += produto.getPreco()*quantidade;
+                return 1;
+            } else {
+                return 3;
+            }
+        } else {
+            return 2;
+        }
+    }
+
+
+    public String mostrarCarrinho(){
+        if(this.nota.equals("")){
+            return null;
+        }
+        return this.nota + "\nTotal: R$" + String.format("%.2f", this.total);
     }
 }
