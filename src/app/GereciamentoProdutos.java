@@ -64,22 +64,23 @@ public class GereciamentoProdutos {
         }
     }
 
-    public void removerProduto(int busca){
-        int i;
-        for(i = 0; i < this.id; i++){
-            if(busca == this.produtos[i].getId()){ 
-                if(i == (this.id-1)){
-                    this.produtos[i] = null;
-                }
-            } else {
-                int j;
-                for(j = i; j < (this.id - 1); ++j) {
-                    this.produtos[j] = this.produtos[i+1];
-                }
-                this.produtos[this.id - 1] = null;
+public void removerProduto(int busca){
+        int indexEncontrado = -1;
+        for(int i = 0; i < this.id; i++){
+            if(busca == this.produtos[i].getId()){
+                indexEncontrado = i;
+                break; 
             }
+        }
+        if (indexEncontrado != -1) {
+            for(int i = indexEncontrado; i < (this.id - 1); i++) {
+                this.produtos[i] = this.produtos[i + 1];
+            }
+            this.produtos[this.id - 1] = null;
             this.id--;
+            JOptionPane.showMessageDialog(null,"Produto removido com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null,"Produto com ID " + busca + " não encontrado.");
         }
     }
 }
-
