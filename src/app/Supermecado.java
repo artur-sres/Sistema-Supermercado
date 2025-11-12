@@ -27,7 +27,9 @@ public class Supermecado {
                     + "\n02 - Buscar produto." 
                     + "\n03 - Listar produtos." 
                     + "\n04 - Modificar produto." 
-                    + "\n05 - Remover produto.";
+                    + "\n05 - Remover produto."
+                    + "\n06 - Adicionar ao carrinho."
+                    + "\n07 - Mostrar carrinho.";
                     
         //Variaveis de produto
         String nome, categoria, validade;
@@ -39,6 +41,7 @@ public class Supermecado {
         String mensagem;
         int busca = 0;
         boolean flag;
+        int status;
 
         while (opcao != 0){
             try {
@@ -141,7 +144,31 @@ public class Supermecado {
                             JOptionPane.showMessageDialog(null,"Produto não encontrado");
                             break;
                         }
+                    case 06:
+                        busca = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o código do produto que deseja adicionar ao carrinho:"));
+                        quantidade = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite quantos produtos deseja adicionar ao carrinho:"));
+
+                        produto = gerenciamento.buscarProduto(busca);
+                        status = gerenciamento.adicionarCarrinho(busca, quantidade);
+
+                        if(status == 1){
+                            JOptionPane.showMessageDialog(null, "Produto adicionado ao carrinho com sucesso");
+                        } else {
+                            if(status == 2){
+                                JOptionPane.showMessageDialog(null, "Produto não encontrado");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "A quantidade é superior ao valor no estoque");
+                            }
+                        }
                     break;
+                    case 07:
+                        mensagem = gerenciamento.mostrarCarrinho();
+                        if(mensagem == null){
+                            JOptionPane.showMessageDialog(null, "O carrinho está vazio!");
+                            break;
+                        }
+                        JOptionPane.showMessageDialog(null, mensagem);
+                        break;
 
                 default:
                     break;
@@ -149,5 +176,3 @@ public class Supermecado {
         }
     }
 }
-
-
